@@ -1,0 +1,20 @@
+--- lib/classes/video.js	2021-01-04 12:02:34.040082461 +0100
++++ lib/classes/video.js	2021-01-04 12:27:54.775089826 +0100
+@@ -716,6 +716,8 @@
+         // Set subtitle codec
+         command.outputOptions('-c:s', 'copy');
+ 
++        command.inputOptions("-probesize", "100M", "-analyzeduration", "100M");
++
+         // Maintain aspect ratio
+         //command.keepDAR();
+ 
+@@ -752,7 +754,7 @@
+             return new Promise(function(resolve, reject) {
+                 h265ize.statusUpdate(video, 'metadata');
+                 logger.verbose('Getting metadata...');
+-                ffmpeg.ffprobe(path, function(err, metadata) {
++                ffmpeg.ffprobe(path, ["-probesize", "100M", "-analyzeduration", "100M"], function(err, metadata) {
+                     if (err) {
+                         logger.error(err.message);
+                         logger.debug('ffprobe error stack:', err.stack);
